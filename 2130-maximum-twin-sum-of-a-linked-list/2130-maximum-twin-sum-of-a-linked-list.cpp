@@ -30,7 +30,7 @@ public:
         //prev is new head 
         slow=head;
         int sum=0;
-        while(slow->next){
+        while(prev){
           sum=max(sum,slow->val+prev->val);  
            //cout<<slow->val<<prev->val<<endl;
           slow=slow->next;
