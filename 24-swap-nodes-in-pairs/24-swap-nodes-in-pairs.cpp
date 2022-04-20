@@ -10,58 +10,21 @@
  */
 class Solution {
 public:
-    ListNode* tempHead=nullptr;
-    ListNode* tempTail=nullptr;
-    
-    void addFirst(ListNode* node){
-        if(tempHead==nullptr and tempTail==nullptr){
-            tempHead=node;
-            tempTail=node;
-        }else{
-            node->next=tempHead;
-            tempHead=node;
-        }
-    }
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        if(k==1)return head;
-      int len=0;
-        ListNode* curr=head;
-        ListNode* ghead=nullptr;
-        ListNode* gtail=nullptr;
-        
-        while(curr){
-            curr=curr->next;
-            len++;
-        }
-        
-        curr=head;
-        
-        while(curr and len-k>=0){
-            
-           int tempK=k;
-            while( tempK--){
-                ListNode* forw=curr->next;
-                curr->next=nullptr;
-                addFirst(curr);
-                curr=forw;
-            }
-            
-            if(ghead==nullptr and gtail==nullptr){
-                ghead=tempHead;
-                gtail=tempTail;
-            }else{
-                gtail->next=tempHead;
-                gtail=tempTail;
-            }
-            
-            tempHead=tempTail=nullptr;
-            len-=k;
-        }
-        gtail->next=curr;
-        return ghead;
-    }
     ListNode* swapPairs(ListNode* head) {
         if(!head or !head->next)return head;
-        return reverseKGroup(head,2);
+        ListNode* p=head,*ns=head->next,*q,*temp;
+        while(1){
+            
+            q=p->next;
+            temp=q->next;
+            q->next=p;
+            if(temp ==nullptr or temp->next==nullptr){
+                p->next=temp;
+                break;
+            }
+            p->next=temp->next;
+            p=temp;
+        }
+        return ns;
     }
 };
