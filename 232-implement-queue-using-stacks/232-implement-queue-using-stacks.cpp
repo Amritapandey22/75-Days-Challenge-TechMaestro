@@ -3,33 +3,57 @@ public:
     MyQueue() {
         
     }
-    stack<int>s1,s2;
+    stack<int>ip,op;
     
     void push(int x) {
-       while(s1.size()!=0){
-           s2.push(s1.top());
-           s1.pop();
-       } 
-        s1.push(x);
-         while(s2.size()!=0){
-           s1.push(s2.top());
-           s2.pop();
-       } 
-        
+        ip.push(x);//O(1) complexity
     }
     
     int pop() {
-        int x=s1.top();
-        s1.pop();
+        int x=0;
+        if(op.size()!=0){
+             x=op.top();
+            op.pop();
+            
+        }else{
+            while(ip.size()!=0){
+                op.push(ip.top());
+                ip.pop();
+            }
+            
+             x=op.top();
+             op.pop();
+            
+        }
+        
         return x;
     }
     
     int peek() {
-        return s1.top();
+        if(op.size()!=0){
+             return op.top();
+            //op.pop();
+            
+        }else{
+            while(ip.size()!=0){
+                op.push(ip.top());
+                ip.pop();
+            }
+            
+             return op.top();
+             //op.pop();
+            
+        }
+        
     }
     
     bool empty() {
-        return s1.empty();
+         while(ip.size()!=0){
+                op.push(ip.top());
+                ip.pop();
+            }
+            
+             return op.empty();
     }
 };
 
