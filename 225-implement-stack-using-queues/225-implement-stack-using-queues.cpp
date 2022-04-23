@@ -3,29 +3,31 @@ public:
     MyStack() {
         
     }
-    queue<int>nums;
-    
+    queue<int>q1,q2;
     void push(int x) {
-        nums.push(x);
-        int s=nums.size();
-        for(int i=0;i<s-1;i++){
-            nums.push(nums.front());
-            nums.pop();
+        while(q1.size()!=0){
+            q2.push(q1.front());
+            q1.pop();
+        }
+        q1.push(x);
+        while(q2.size()){
+            q1.push(q2.front());
+            q2.pop();
         }
     }
     
     int pop() {
-        int a=nums.front();
-        nums.pop();
-        return a;
+        int x=q1.front();
+        q1.pop();
+        return x;
     }
     
     int top() {
-        return nums.front();
+        return q1.front();
     }
     
     bool empty() {
-        return nums.empty();
+        return q1.empty();
     }
 };
 
