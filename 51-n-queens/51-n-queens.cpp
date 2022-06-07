@@ -1,18 +1,10 @@
 class Solution {
 public:
     vector<vector<string>> ret;
-    bool is_valid(vector<string> &board, int row, int col){
-        // check col
-        for(int i=row;i>=0;--i)
-            if(board[i][col] == 'Q') return false;
-        // check left diagonal
-        for(int i=row,j=col;i>=0&&j>=0;--i,--j)
-            if(board[i][j] == 'Q') return false;
-        //check right diagonal
-        for(int i=row,j=col;i>=0&&j<board.size();--i,++j)
-            if(board[i][j] == 'Q') return false;
-        return true;
-    }
+    int n;
+    vector<bool>cols;
+    vector<bool>upDiagLft;
+    vector<bool>upDiagRgt;
     void dfs(vector<string> &board, int row){
         // exit condition
         if(row == board.size()){
@@ -21,19 +13,25 @@ public:
         }
         // iterate every possible position
         for(int i=0;i<board.size();++i){
-            if(is_valid(board,row,i)){
+            if(!cols[i] and !upDiagLft[row-i+n-1] and !upDiagRgt[row+i]){
                 // make decision
+                cols[i] =upDiagLft[row-i+n-1] =upDiagRgt[row+i]=true;
                 board[row][i] = 'Q';
                 // next iteration
                 dfs(board,row+1);
                 // back-tracking
+                cols[i] =upDiagLft[row-i+n-1] =upDiagRgt[row+i]=false;
                 board[row][i] = '.';
             }
         }
     }
-    vector<vector<string>> solveNQueens(int n) {
+    vector<vector<string>> solveNQueens(int N) {
 		// return empty if n <= 0
-        if(n <= 0) return {{}};
+        n=N;
+        if(N == 1) return {{"Q"}};
+        cols.resize(n,false);
+        upDiagLft.resize(2*n-1,false);
+        upDiagRgt.resize(2*n-1,false);
         vector<string> board(n,string(n,'.'));
         dfs(board,0);
         return ret;
