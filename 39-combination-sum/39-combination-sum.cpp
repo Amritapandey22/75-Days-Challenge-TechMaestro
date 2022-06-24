@@ -1,24 +1,25 @@
 class Solution {
-public:
-    void solve(int idx,vector<int>& cnd, int trg,vector<int>&ds,vector<vector<int>>&ans){
+public: 
+    vector<vector<int>>ans;
+    void solve(int idx,int trg,vector<int>&cnd,vector<int>&ds){
         if(idx==cnd.size()){
-            if(trg==0){
-                ans.push_back(ds);                
-            }
             return;
         }
-        
+        if(trg==0){
+            ans.push_back(ds);
+            return;
+        }
         if(trg-cnd[idx]>=0){
             ds.push_back(cnd[idx]);
-            solve(idx,cnd,trg-cnd[idx],ds,ans);
+            solve(idx,trg-cnd[idx],cnd,ds);
             ds.pop_back();
         }
-        solve(idx+1,cnd,trg,ds,ans);
+        
+        solve(idx+1,trg,cnd,ds);
     }
-    vector<vector<int>> combinationSum(vector<int>& cnd, int trg) {
-         vector<vector<int>>ans;
+    vector<vector<int>> combinationSum(vector<int>& cnd, int target) {
         vector<int>ds;
-        solve(0,cnd,trg,ds,ans);
+        solve(0,target,cnd,ds);
         return ans;
     }
 };
