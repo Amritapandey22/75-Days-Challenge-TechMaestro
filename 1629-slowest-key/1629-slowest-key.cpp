@@ -1,7 +1,7 @@
 class Solution {
 public:
     char slowestKey(vector<int>& rt, string kp) {
-        
+        //this is space consuming approach
         vector<int>frq(26,0);
         frq[kp[0]-'a']=rt[0];
         
