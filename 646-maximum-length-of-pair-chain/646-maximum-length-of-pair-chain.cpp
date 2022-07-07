@@ -9,8 +9,8 @@ public:
         
         for(int i=1;i<n;i++){
             for(int j=0;j<i;j++){
-                if(pairs[j][1]<pairs[i][0]){
-                    dp[i]=max(dp[i],1+dp[j]);
+                if(pairs[j][1]<pairs[i][0] and dp[j]+1>dp[i]){
+                    dp[i]=1+dp[j];
                 }
             }
             
