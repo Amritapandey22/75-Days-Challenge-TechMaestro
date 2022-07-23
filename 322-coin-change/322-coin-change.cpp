@@ -1,25 +1,23 @@
 class Solution {
 public:
-    int solve(int idx,int trg,vector<int>& coins,vector<vector<int>>&dp){
-        
-        if(idx==0){
-            if(trg%coins[0]==0) return trg/coins[0];
-            return 1e9;
+    int coinChange(vector<int>& coins, int amt) {
+        int n=coins.size();
+        vector<vector<int>>dp(n,vector<int>(amt+1,0));
+        //i-1 or trg-a[i]
+        for(int i=0;i<=amt;i++){
+            if(i%coins[0]==0)dp[0][i]=i/coins[0];
+            else dp[0][i]=1e9;
+        }
+        for(int idx=1;idx<n;idx++){
+            for(int trg=0;trg<=amt;trg++){
+                    int nt=0+dp[idx-1][trg];
+                    int t=1e9;
+                    if(coins[idx]<=trg)t=1+dp[idx][trg-coins[idx]];
+
+                     dp[idx][trg]=min(nt,t);
+            }
         }
         
-        if(dp[idx][trg]!=-1)return dp[idx][trg];
-        
-        int nt=0+solve(idx-1,trg,coins,dp);
-        int t=1e9;
-        if(coins[idx]<=trg)t=1+solve(idx,trg-coins[idx],coins,dp);
-        
-        return dp[idx][trg]=min(nt,t);
-    }
-    int coinChange(vector<int>& coins, int trg) {
-        int n=coins.size();
-        vector<vector<int>>dp(n,vector<int>(trg+1,-1));
-        int ans=solve(n-1,trg,coins,dp);
-        
-        return ans==1e9?-1:ans;
+        return dp[n-1][amt]==1e9?-1:dp[n-1][amt];
     }
 };
