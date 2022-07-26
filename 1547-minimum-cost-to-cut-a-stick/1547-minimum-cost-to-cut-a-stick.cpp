@@ -17,22 +17,8 @@ public:
         cuts.push_back(n);
         sort(cuts.begin(),cuts.end());
         int c=cuts.size();
-        vector<vector<int>>dp(c+2,vector<int>(c+2,0));
+        vector<vector<int>>dp(c+1,vector<int>(c+1,-1));
         
-        for(int i=c-2;i>=1;i--){
-            for(int j=1;j<=c-2;j++){
-                if(i>j)continue;
-                  int mini=1e9;
-                    for(int cut=i;cut<=j;cut++){
-                        int cost=cuts[j+1]-cuts[i-1]+dp[i][cut-1]+dp[cut+1][j];
-                        mini=min(cost,mini);
-                    }
-        
-         dp[i][j]=mini;
-                
-            }
-        }
-        
-        return dp[1][c-2];
+        return solve(1,cuts.size()-2,dp,cuts);
     }
 };
