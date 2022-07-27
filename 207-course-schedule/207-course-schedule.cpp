@@ -1,40 +1,28 @@
 class Solution {
 public:
-    bool dfs(vector<vector<int>>&graph,vector<int>&vis,int src){
-        vis[src]=1;
-        bool ans=false;
-        for(auto it:graph[src]){
-            if(vis[it]==0){
-              ans=dfs(graph,vis,it);
-              if(ans)return true;  
-            }
-            
-            if(vis[it]==1)return true;//cycle exists
-            
-            
-        }
-        vis[src]=2;
+    bool canFinish(int n, vector<vector<int>>& adj) {
         
-        return false;
-        
-    }
-    bool canFinish(int n, vector<vector<int>>& prq) {
-        vector<int>vis(n,0);
-        //0-not visit 1-in current cycle,2-just visited
-        
-        //1->0
-        vector<vector<int>>graph(n);
-        for(auto vec:prq){
-            graph[vec[1]].push_back(vec[0]);
-        }
-        
-        bool ans=false;
-        for(int i=0;i<n;i++){
-            if(!vis[i]){
-                ans=ans or dfs(graph,vis,i);
-            }
-        }
-        
-        return !ans;
+        queue<int>q;
+	    vector<int>indeg(n,0);
+        vector<vector<int>>grph(n);
+	    for(auto it:adj){
+            grph[it[1]].push_back(it[0]);
+	        indeg[it[0]]+=1;
+	    }
+	    for(int i=0;i<n;i++){
+	        if(indeg[i]==0)q.push(i);
+	    }
+	    vector<int>ans;
+	    while(q.size()){
+	        int node=q.front();
+	        q.pop();
+	        ans.push_back(node);
+	        for(auto it:grph[node]){
+	            if(--indeg[it]==0)q.push(it);
+	        }
+	    }
+	    
+	    if(ans.size()==n)return true;
+	    return false;
     }
 };
