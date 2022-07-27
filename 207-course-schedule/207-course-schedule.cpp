@@ -4,14 +4,18 @@ public:
         vis[src]=1;
         bool ans=false;
         for(auto it:graph[src]){
-            if(vis[it]==0)ans=ans or dfs(graph,vis,it);
+            if(vis[it]==0){
+              ans=dfs(graph,vis,it);
+              if(ans)return true;  
+            }
+            
             if(vis[it]==1)return true;//cycle exists
             
             
         }
         vis[src]=2;
         
-        return ans;
+        return false;
         
     }
     bool canFinish(int n, vector<vector<int>>& prq) {
