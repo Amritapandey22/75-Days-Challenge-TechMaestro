@@ -9,11 +9,11 @@ public:
             int b=it[1];
             
             outdeg[a]+=1;
-            indeg[b]+=1;
+            outdeg[b]-=1;
         }
-        
+        int ans=-1*(n-1);
         for(int i=0;i<=n;i++){
-            if(indeg[i]==n-1 and outdeg[i]==0)return i;
+            if(outdeg[i]==ans)return i;
         }
         
         return -1;
