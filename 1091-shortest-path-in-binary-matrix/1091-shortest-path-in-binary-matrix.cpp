@@ -1,32 +1,34 @@
 class Solution {
 public:
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
-        vector<vector<int>>dir{{0,1},{0,-1},{1,0},{-1,0},{-1,-1},{-1,1},{1,1},{1,-1}};
         int n=grid.size();
-        int dis=1;
-        if(grid[0][0]==1 or grid[n-1][n-1]==1)return -1;
+        int m=grid[0].size();
+        if(grid[0][0]==1 or grid[n-1][m-1]==1)return -1;
         
-        queue<int>q;
-        q.push(0);
-        
+        queue<pair<int,int>>q;
+        q.push({0,0});
+        grid[0][0]=-1;
+        int level=0;
+        vector<vector<int>>dir{{0,-1},{0,1},{1,0},{-1,0},{-1,-1},{-1,1},{1,1},{1,-1}};
         while(q.size()){
-            int qsize=q.size();
-            while(qsize--){
-                int idx=q.front();
+            int sz=q.size();
+            level+=1;
+            while(sz--){
+                auto node=q.front();
                 q.pop();
-                int sr=idx/n,sc=idx%n;
-                if(sr==n-1 and sc==n-1)return dis;
+                int xc=node.first;
+                int yc=node.second;
+                if(xc==n-1 and yc==m-1)return level;
                 for(auto d:dir){
-                    int r=sr+d[0],c=sc+d[1];
-                    if(r>=0 and c>=0 and r<n and c<n and grid[r][c]==0)
-                    {
-                        
-                        q.push(r*n+c);
-                            grid[r][c]=1;
+                    int x=xc+d[0];
+                    int y=yc+d[1];
+                    if(x>=0 and x<n and y>=0 and y<m and grid[x][y]==0){
+                        q.push({x,y});
+                        grid[x][y]=-1;
                     }
                 }
             }
-            dis++;
+         
         }
         
         return -1;
